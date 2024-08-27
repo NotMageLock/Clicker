@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" href="favicon.ico">
+  <title>Clicker Game</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f0f0f0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+    #game {
+      text-align: center;
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      max-width: 400px;
+      width: 100%;
+    }
+    button {
+      font-size: 20px;
+      padding: 10px 20px;
+      border: none;
+      background-color: #007bff;
+      color: white;
+      border-radius: 5px;
+      cursor: pointer;
+      outline: none;
+    }
+    button:active {
+      background-color: #0056b3;
+    }
+    #upgrades button {
+      font-size: 16px;
+      padding: 5px 10px;
+      margin-top: 10px;
+    }
+  </style>
+  <link rel="manifest" href="manifest.json">
+</head>
+<body>
+  <div id="game">
+    <h1>Clicker Game</h1>
+    <button id="clickButton">Click Me!</button>
+    <p>Score: <span id="score">0</span></p>
+    <h2>Upgrades</h2>
+    <div id="upgrades">
+      <button id="upgradeClick">Upgrade Click Power (Cost: 10)</button>
+      <button id="buyAutoClicker">Buy Autoclicker (Cost: 50)</button>
+    </div>
+    <p id="autoclickers">Autoclickers: <span id="autoClickerCount">0</span></p>
+  </div>
+  <script>
+    let score = 0;
+    let clickPower = 1;
+    let autoClickers = 0;
+
+    const scoreElement = document.getElementById('score');
+    const clickButton = document.getElementById('clickButton');
+    const upgradeClickButton = document.getElementById('upgradeClick');
+    const buyAutoClickerButton = document.getElementById('buyAutoClicker');
+    const autoClickerCountElement = document.getElementById('autoClickerCount');
+
+    clickButton.addEventListener('click', () => {
+      score += clickPower;
+      updateScore();
+    });
+
+    upgradeClickButton.addEventListener('click', () => {
+      if (score >= 10) {
+        score -= 10;
+        clickPower++;
+        updateScore();
+        upgradeClickButton.textContent = `Upgrade Click Power (Cost: ${10 * clickPower})`;
+      }
+    });
+
+    buyAutoClickerButton.addEventListener('click', () => {
+      if (score >= 50) {
+        score -= 50;
+        autoClickers++;
+        updateScore();
+        autoClickerCountElement.textContent = autoClickers;
+      }
+    });
+
+    function updateScore() {
+      scoreElement.textContent = score;
+    }
+
+    setInterval(() => {
+      score += autoClickers;
+      updateScore();
+    }, 1000);
+  </script>
+</body>
+</html>
